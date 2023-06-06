@@ -1,0 +1,95 @@
+### 전체 프로젝트 조회
+GET /projects
+
+
+### ID로 해당 프로젝트 조회
+GET /projects/{id}
+
+
+### 프로젝트 생성
+POST /projects
+
+
+### ID로 해당 프로젝트 업데이트
+PATCH /projects/{id}
+
+
+### ID로 해당 프로젝트 삭제
+DELETE /projects/{id}
+
+
+### 전체 프로젝트 조회
+GET /projects
+
+
+### ID로 해당 프로젝트 조회
+GET /projects/{id}
+
+
+### 프로젝트 생성
+POST /projects
+
+
+### ID로 해당 프로젝트 업데이트
+PATCH /projects/{id}
+
+
+### ID로 해당 프로젝트 삭제
+DELETE /projects/{id}
+
+
+### 프로젝트 별 회원 조회
+GET /projects/accounts/{projectId}
+
+
+### ID로 해당 프로젝트 회원 조회
+GET /projects/accounts/{projectId}/{accountId}
+
+
+### 프로젝트에 멤버 추가
+POST /projects/{projectId}/accounts
+
+
+
+### 해당 프로젝트의 전체 업무 조회
+GET projects/tasks/{projectId}
+
+
+### 해당 업무 조회
+GET projects/tasks/{projectId}/{taskId}
+
+
+### 업무 등록
+POST projects/tasks/{projectId}
+
+
+### 해당 업무 수정
+PATCH projects/tasks/{projectId}/{taskId}
+
+
+### 해당 업무 삭제
+DELETE projects/tasks/{projectId}/{taskId}
+
+### 해당 업무의 모든 댓글 조회
+GET /projects/tasks/{projectId}/{taskId}/comments
+
+
+### 해당 업무의 해당 댓글 조회
+GET /projects/tasks/{projectId}/{taskId}/comments/{commetId}
+
+
+### 내가 쓴 모든 댓글 + 세션에 있는 유저 아이디 가져와서 같이 조회
+GET /comments/{accountId}
+
+
+### 댓글 등록
+POST /projects/tasks/{projectId}/{taskId}/comments
+
+
+### 댓글 수정
+PATCH /projects/tasks/{projectId}/{taskId}/comments/{commetId}
+
+
+### 댓글 삭제
+DELETE /projects/tasks/comments/{projectId}/{taskId}/{commentId}
+

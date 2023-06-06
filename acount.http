@@ -1,0 +1,23 @@
+### 회원리스트 조회
+GET http://172.20.26.194:8080/accounts
+
+
+
+### 회원 조회
+GET /accounts/{id}
+
+
+### 프로젝트 별 회원 조회
+GET /projects/accounts/{projectId}
+
+
+### 회원 가입
+POST /accounts
+
+
+### 회원이 정보 수정 (상태 수정 불가)
+PUT /accounts/{id}
+
+
+### 회원 탈퇴
+DELETE /accounts/{id}
