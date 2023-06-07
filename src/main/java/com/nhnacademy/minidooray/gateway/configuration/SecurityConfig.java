@@ -26,7 +26,8 @@ public class SecurityConfig {
                 .and()
             .formLogin()
                 .usernameParameter("id")
-                .passwordParameter("pwd ")
+                .passwordParameter("pwd")
+                .loginPage("/login")
                 .loginProcessingUrl("/login-process")
                 .successHandler(loginSuccessHandler(null))
                 .and()
@@ -64,7 +65,7 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
     @Bean
-    public LoginSuccessHandler loginSuccessHandler(RedisTemplate redisTemplate) {
+    public LoginSuccessHandler loginSuccessHandler(RedisTemplate<String, Object> redisTemplate) {
         return new LoginSuccessHandler(redisTemplate);
     }
 

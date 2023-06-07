@@ -1,6 +1,7 @@
 package com.nhnacademy.minidooray.gateway.auth;
 
 import com.nhnacademy.minidooray.gateway.domain.Account;
+import com.nhnacademy.minidooray.gateway.domain.RegisterRequest;
 import com.nhnacademy.minidooray.gateway.properties.AccountProperties;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -24,24 +25,42 @@ public class AccountAdopter {
         this.accountProperties = accountProperties;
     }
 
-
     public Account getAccount(String id) {
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
-
-        UriComponentsBuilder builder = UriComponentsBuilder.fromPath("//accounts")
-                .scheme("http").host(accountProperties.getHost()).port(accountProperties.getPort());
-
-        if(Objects.nonNull(id)) {
-            builder.queryParam("id",id);
-        }
-        URI uri = builder.build(false).encode().toUri();
-        HttpEntity<String> requestEntity = new HttpEntity<>(httpHeaders);
-        ResponseEntity<Account> exchange = restTemplate.exchange(uri, HttpMethod.GET,
-                requestEntity, new ParameterizedTypeReference<Account>() {
+        HttpEntity<String> requestEntity = new HttpEntity<>(getHttpHeader());
+        URI uri = getUri(id, "/account");
+        ResponseEntity<Account> exchange = restTemplate.exchange(uri,
+                HttpMethod.GET,
+                requestEntity,
+                new ParameterizedTypeReference<>() {
                 });
         return exchange.getBody();
     }
 
+    public Account createAccount(RegisterRequest registerRequest) {
+        HttpEntity<RegisterRequest> requestEntity = new HttpEntity<>(registerRequest,getHttpHeader());
+        URI uri = getUri(null, "/accounts");
+        ResponseEntity<Account> exchange = restTemplate.exchange(uri,
+                HttpMethod.POST,
+                requestEntity,
+                new ParameterizedTypeReference<>() {
+                });
+        return exchange.getBody();
+    }
+
+    public HttpHeaders getHttpHeader() {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
+        return httpHeaders;
+    }
+
+    public URI getUri(String param, String path) {
+        UriComponentsBuilder builder = UriComponentsBuilder.fromPath(path)
+                .scheme("http").host(accountProperties.getHost()).port(accountProperties.getPort());
+
+        if (Objects.nonNull(param)) {
+            builder.queryParam("id", param);
+        }
+        return builder.build(false).encode().toUri();
+    }
 }

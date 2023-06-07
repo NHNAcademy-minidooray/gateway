@@ -2,10 +2,13 @@ package com.nhnacademy.minidooray.gateway.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
+@Setter
 @AllArgsConstructor
 public class Account {
     private String id;
@@ -15,9 +18,11 @@ public class Account {
 
     private String name;
 
-    private Date createdAt;
+    private LocalDate createdAt;
 
-    private String statueCode;
+    private int statueCode;
+
+    private int authority;
 
 }
 
