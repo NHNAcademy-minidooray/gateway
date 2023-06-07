@@ -9,7 +9,7 @@
 <body>
 <h1>회원가입</h1>
 <div class="d-flex justify-content-center">
-  <form role="form" th:action="@{/join/submit}" th:object="${RequestSignUpDto}" method="post">
+  <form role="form" th:action="@{/join}" th:object="${RequestSignUpDto}" method="post">
     <div class="mb-3">
       <label class="form-label">ID</label>
       <input type="text" class="form-control" name="accountId">
