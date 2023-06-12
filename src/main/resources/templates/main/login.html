@@ -5,11 +5,25 @@
   <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
-<form method="post" action="/login-process">
-  <span/>UserName: <input type="text" name="id" /><br />
-  <span />Password: <input type="password" name="pwd" /><br />
-  <input type="submit" />
-  <a href="/join">회원가입</a>
-</form>
+  <div class="login-wrapper">
+    <h2>Login</h2>
+    <form method="post" action="/login-process" id="login-form">
+
+      <span/><input type="text" name="username" placeholder="아이디"/><br />
+      <span/><input type="password" name="password" placeholder="비밀번호"/><br />
+      <span>
+    <span th:if="${error}">
+        <p id="valid" class="alert alert-danger"th:text="${exception}"></p>
+    </p>
+</span>
+      <input type="submit"  value="Login"/>
+    </form>
+    <div class="link-wrapper">
+      <a id="git_btn" href="/oauth2/authorization/github">Sign in with GitHub</a>
+    </div>
+    <div class="join-link">
+      <a href="/join">회원가입</a>
+    </div>
+  </div>
 </body>
 </html>

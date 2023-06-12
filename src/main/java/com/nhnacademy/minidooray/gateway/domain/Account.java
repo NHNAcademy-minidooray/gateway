@@ -5,13 +5,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Getter
 @Setter
 @AllArgsConstructor
 public class Account {
-    private String id;
+    private String accountId;
     private String password;
 
     private String email;
@@ -20,9 +19,9 @@ public class Account {
 
     private LocalDate createdAt;
 
-    private int statueCode;
+    private Integer statusCode;
 
-    private int authority;
+    private Integer authorityCode;
 
 }
 

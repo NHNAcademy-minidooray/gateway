@@ -1,7 +1,6 @@
 package com.nhnacademy.minidooray.gateway.auth;
 
-import com.nhnacademy.minidooray.gateway.service.CustomUserDetailsService;
-import lombok.AllArgsConstructor;
+import com.nhnacademy.minidooray.gateway.domain.Account;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
@@ -18,6 +17,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
     private final RedisTemplate<String,Object> redisTemplate;
+    private final AccountAdopter accountAdopter;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -32,11 +32,13 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
         // TODO #4-2: redis에 session 정보를 저장하세요.
         String username = authentication.getName();
         String authority = new ArrayList<>(authentication.getAuthorities()).get(0).getAuthority();
+        Account account = accountAdopter.getAccount(username);
 
         redisTemplate.opsForHash().put(sessionId, "username", username);
         redisTemplate.opsForHash().put(sessionId, "authority", authority);
+        redisTemplate.opsForHash().put(sessionId,"accountName",account.getName());
 
-        super.onAuthenticationSuccess(request, response, authentication);
+//        super.onAuthenticationSuccess(request, response, authentication);
 
         response.sendRedirect("/post");
     }

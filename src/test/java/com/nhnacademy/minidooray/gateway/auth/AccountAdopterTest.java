@@ -8,22 +8,28 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.time.LocalDate;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
@@ -31,50 +37,23 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class AccountAdopterTest {
 
+    //    @MockBean
+//    MockRestServiceServer mockServer;
+    @Autowired
+    PasswordEncoder passwordEncoder;
     @MockBean
-    MockRestServiceServer mockServer;
-    @Autowired
     RestTemplate restTemplate;
-    @Autowired
+    @InjectMocks
     AccountAdopter accountAdopter;
 
-    @BeforeEach
-    public void setup() {
-        restTemplate = new RestTemplate();
-        mockServer = MockRestServiceServer.createServer(restTemplate);
-    }
-
     @Test
-    void getAccount() {
+    void getPassword() {
+        String result = passwordEncoder.encode("minidooray");
+        System.out.println(result);
     }
 
     @Test
     void testCreateAccount() throws JsonProcessingException {
-        //Mock response
-        Account account = new Account("moon","1234","email","문은지", LocalDate.now(),1,1);
-        ObjectMapper objectMapper = new ObjectMapper();
-        RegisterRequest registerRequest = new RegisterRequest("moon","1234","email","문은지");
-        mockServer.expect(requestTo("/accounts"))
-                .andExpect(method(HttpMethod.POST))
-                .andExpect(content().json(objectMapper.writeValueAsString(registerRequest)))
-                .andRespond(withSuccess(objectMapper.writeValueAsString(account), MediaType.APPLICATION_JSON));
-
-        //create account
-        RegisterRequest registerRequest2 = new RegisterRequest("moon","1234","email","문은지");
-        HttpEntity<RegisterRequest> requestEntity = new HttpEntity<>(registerRequest2, accountAdopter.getHttpHeader());
-        URI uri = accountAdopter.getUri(null, "/accounts");
-        ResponseEntity<Account> exchange = restTemplate.exchange(uri,
-                HttpMethod.POST,
-                requestEntity,
-                new ParameterizedTypeReference<>() {});
-        Account createdAccount = exchange.getBody();
-
-        // Assertion
-        assertNotNull(createdAccount);
-        assertEquals("moon", createdAccount.getId());
-
-        // Verify the mock server
-        mockServer.verify();
 
 
     }

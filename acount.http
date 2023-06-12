@@ -1,5 +1,5 @@
-### 회원리스트 조회
-GET http://172.20.26.194:8080/accounts
+### 전체 회원 조회
+GET http://localhost:8888/admin/accounts
 
 
 
@@ -14,9 +14,18 @@ GET /projects/accounts/{projectId}
 ### 회원 가입
 POST /accounts
 
+### kimsiyeon 조회
+GET http://localhost:8888/accounts/kimsiyeon
 
 ### 회원이 정보 수정 (상태 수정 불가)
-PUT /accounts/{id}
+PATCH http://localhost:8888/accounts/kimsiyeon
+Content-Type: application/json
+
+{
+  "password": "ksy",
+  "email": "swanshawn715@gmail.com",
+  "name": "tlllll"
+}
 
 
 ### 회원 탈퇴
