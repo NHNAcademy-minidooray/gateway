@@ -1,4 +1,4 @@
-package com.nhnacademy.minidooray.gateway.auth;
+package com.nhnacademy.minidooray.gateway.adopter;
 
 import com.nhnacademy.minidooray.gateway.domain.Account;
 import com.nhnacademy.minidooray.gateway.domain.RegisterRequest;

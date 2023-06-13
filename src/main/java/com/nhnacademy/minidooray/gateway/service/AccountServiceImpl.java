@@ -1,6 +1,6 @@
 package com.nhnacademy.minidooray.gateway.service;
 
-import com.nhnacademy.minidooray.gateway.auth.AccountAdopter;
+import com.nhnacademy.minidooray.gateway.adopter.AccountAdopter;
 import com.nhnacademy.minidooray.gateway.domain.Account;
 import com.nhnacademy.minidooray.gateway.domain.RegisterRequest;
 import com.nhnacademy.minidooray.gateway.domain.UserModifyRequest;
@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;

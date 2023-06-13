@@ -1,6 +1,6 @@
 package com.nhnacademy.minidooray.gateway.configuration;
 
-import com.nhnacademy.minidooray.gateway.auth.AccountAdopter;
+import com.nhnacademy.minidooray.gateway.adopter.AccountAdopter;
 import com.nhnacademy.minidooray.gateway.auth.AuthFailureHandler;
 import com.nhnacademy.minidooray.gateway.auth.LoginSuccessHandler;
 import com.nhnacademy.minidooray.gateway.service.CustomUserDetailsService;

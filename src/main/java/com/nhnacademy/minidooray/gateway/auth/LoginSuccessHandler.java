@@ -1,14 +1,13 @@
 package com.nhnacademy.minidooray.gateway.auth;
 
+import com.nhnacademy.minidooray.gateway.adopter.AccountAdopter;
 import com.nhnacademy.minidooray.gateway.domain.Account;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
-import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
