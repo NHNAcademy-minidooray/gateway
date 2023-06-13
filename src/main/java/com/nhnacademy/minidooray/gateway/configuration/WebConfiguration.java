@@ -1,6 +1,5 @@
 package com.nhnacademy.minidooray.gateway.configuration;
 
-import org.apache.http.client.HttpClient;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
