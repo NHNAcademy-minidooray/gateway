@@ -52,38 +52,7 @@
         <!-- Page content-->
         <div class="container-fluid">
             <h1>전체 업무</h1>
-            <table>
-                <COLGROUP>
-                    <col style="width: 20%">
-                    <col style="width: 30%">
-                    <col style="width: 30%">
-                    <col style="width: 20%">
-                </COLGROUP>
-                <thead>
-                <tr>
-                    <th>업무 제목</th>
-                    <th>등록자</th>
-                    <th>프로젝트명</th>
-                    <th>태그</th>
-                </tr>
-                </thead>
-                <tr th:each="item :${page.content}">
-                    <td th:text="${item.name}"></td>
-                    <td>
-                        <ul>
-                            <li><a th:href="@{/residents/{number}/relationship(number=${item.residentId})}">가족관계증명서</a></li>
-                            <li><a href="">주민등록등본</a></li>
-                            <li><a href="">출생신고서</a></li>
-                            <li><a href="">사망신고서</a></li>
-                        </ul>
-                    </td>
-                    <td><a href="">발급 목록</a></td>
-                    <form>
-                        <td><button type="submit">삭제</button></td>
-                    </form>
-                </tr>
-            </table>
-            <a th:href="@{/(page=${pageable.next().getPageNumber()})}">다음</a>
+
         </div>
     </div>
 </div>

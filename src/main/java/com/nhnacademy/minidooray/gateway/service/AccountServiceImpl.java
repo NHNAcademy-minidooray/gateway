@@ -4,7 +4,6 @@ import com.nhnacademy.minidooray.gateway.auth.AccountAdopter;
 import com.nhnacademy.minidooray.gateway.domain.Account;
 import com.nhnacademy.minidooray.gateway.domain.RegisterRequest;
 import com.nhnacademy.minidooray.gateway.domain.UserModifyRequest;
-import com.nhnacademy.minidooray.gateway.repository.AlreadyExistException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;

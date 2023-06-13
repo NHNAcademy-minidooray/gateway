@@ -3,7 +3,6 @@ package com.nhnacademy.minidooray.gateway.controller;
 import com.nhnacademy.minidooray.gateway.domain.Account;
 import com.nhnacademy.minidooray.gateway.domain.RegisterRequest;
 import com.nhnacademy.minidooray.gateway.domain.UserModifyRequest;
-import com.nhnacademy.minidooray.gateway.repository.AlreadyExistException;
 import com.nhnacademy.minidooray.gateway.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -17,13 +16,13 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class UserController {
     private final AccountService accountService;
-    @GetMapping
+    @GetMapping("/join")
     public String join() {
         return "join";
     }
 
     @PostMapping("/join")
-    public String joinForm(@Valid @ModelAttribute RegisterRequest request, Model model) throws AlreadyExistException {
+    public String joinForm(@Valid @ModelAttribute RegisterRequest request, Model model){
         Account account = accountService.createAccount(request);
         model.addAttribute("account",account);
        return "join-success";
