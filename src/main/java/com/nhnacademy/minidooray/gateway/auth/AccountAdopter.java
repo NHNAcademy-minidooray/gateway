@@ -26,13 +26,11 @@ public class AccountAdopter {
     private final RestTemplate restTemplate;
     private final AccountProperties accountProperties;
     private final PasswordEncoder passwordEncoder;
-    private final RedisTemplate<String,Object> redisTemplate;
 
-    public AccountAdopter(RestTemplate restTemplate, AccountProperties accountProperties, PasswordEncoder passwordEncoder, RedisTemplate<String, Object> redisTemplate) {
+    public AccountAdopter(RestTemplate restTemplate, AccountProperties accountProperties, PasswordEncoder passwordEncoder) {
         this.restTemplate = restTemplate;
         this.accountProperties = accountProperties;
         this.passwordEncoder = passwordEncoder;
-        this.redisTemplate = redisTemplate;
     }
 
     public Account getAccount(String id) {
@@ -48,7 +46,7 @@ public class AccountAdopter {
         return exchange.getBody();
     }
 
-    public Account createAccount(RegisterRequest registerRequest) throws AlreadyExistException {
+    public Account createAccount(RegisterRequest registerRequest) {
         HttpEntity<RegisterRequest> requestEntity = new HttpEntity<>(registerRequest, getHttpHeader());
         URI uri = getUri(null, "/accounts");
 
@@ -67,8 +65,7 @@ public class AccountAdopter {
         return restTemplate.patchForObject(uri, request, Account.class);
     }
 
-    public void withdrawForUser(HttpServletRequest request){
-        String userId = getUserCookie(request,"username");
+    public void withdrawForUser(HttpServletRequest request, String userId){
         URI uri = getUri(userId, "/accounts/withdraw/{id}");
         restTemplate.getForEntity(uri,Account.class);
     }
@@ -94,35 +91,6 @@ public class AccountAdopter {
         } else {
             return builder.build(false).encode().toUri();
         }
-
     }
 
-    public String getUserCookie(HttpServletRequest request,String value) {
-        String sessionId = null;
-        Cookie[] cookies = request.getCookies();
-        if(cookies != null) {
-            for (Cookie cookie : cookies){
-                if(cookie.getName().equals("SESSION")) {
-                    sessionId = cookie.getValue();
-                    break;
-                }
-            }
-        }
-        if(value.equals("username")){
-            return  (String) redisTemplate.opsForHash().get(sessionId,"username");
-        } else if (value.equals("accountName")) {
-            return  (String) redisTemplate.opsForHash().get(sessionId,"accountName");
-        } else {
-            return  (String) redisTemplate.opsForHash().get(sessionId,"authority");
-        }
-    }
-
-    public String getStatusName(Integer status){
-        if(status == 1){
-            return "사용 중";
-        } else if (status==2) {
-            return "탈퇴";
-        }
-        return "휴면";
-    }
 }

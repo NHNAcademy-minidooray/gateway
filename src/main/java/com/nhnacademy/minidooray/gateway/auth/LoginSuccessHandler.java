@@ -3,9 +3,12 @@ package com.nhnacademy.minidooray.gateway.auth;
 import com.nhnacademy.minidooray.gateway.domain.Account;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
+import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -38,8 +41,12 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
         redisTemplate.opsForHash().put(sessionId, "authority", authority);
         redisTemplate.opsForHash().put(sessionId,"accountName",account.getName());
 
-//        super.onAuthenticationSuccess(request, response, authentication);
+//        Authentication authentication1 = new UsernamePasswordAuthenticationToken(
+//
+//        )
 
+//        super.onAuthenticationSuccess(request, response, authentication);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         response.sendRedirect("/post");
     }
 
