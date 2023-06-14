@@ -1,14 +1,26 @@
 package com.nhnacademy.minidooray.gateway.controller;
 
+import com.nhnacademy.minidooray.gateway.domain.Project;
+import com.nhnacademy.minidooray.gateway.service.ProjectService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+
 @Controller
 @RequestMapping("/post")
+@RequiredArgsConstructor
 public class PostController {
+
+    private final ProjectService projectService;
     @GetMapping
-    public String getPostPage(){
+    public String getPostPage(HttpServletRequest request, Model model){
+        List<Project> projects =  projectService.getUserProjects(request);
+        model.addAttribute("projects",projects);
         return "post";
     }
 

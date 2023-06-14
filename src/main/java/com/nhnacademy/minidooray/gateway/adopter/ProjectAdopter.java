@@ -3,8 +3,8 @@ package com.nhnacademy.minidooray.gateway.adopter;
 import com.nhnacademy.minidooray.gateway.domain.Project;
 import com.nhnacademy.minidooray.gateway.properties.TaskProperties;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -18,9 +18,12 @@ import java.util.Objects;
 public class ProjectAdopter {
     private final RestTemplate restTemplate;
     private final TaskProperties taskProperties;
-//    public List<Project> getUserProjects(){
-//
-//    }
+    public List<Project> getUserProjects(String accountId){
+        URI uri = getUri(accountId,"/projects/accounts/{accountId}");
+        HttpEntity<String> requestEntity = new HttpEntity<>(getHttpHeader());
+        ResponseEntity<List<Project>> response = restTemplate.exchange(uri, HttpMethod.GET, requestEntity, new ParameterizedTypeReference<List<Project>>() {});
+        return response.getBody();
+    }
 
     public HttpHeaders getHttpHeader() {
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -39,4 +42,5 @@ public class ProjectAdopter {
             return builder.build(false).encode().toUri();
         }
     }
+
 }
