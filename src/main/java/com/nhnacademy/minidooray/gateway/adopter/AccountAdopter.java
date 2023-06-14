@@ -3,17 +3,14 @@ package com.nhnacademy.minidooray.gateway.adopter;
 import com.nhnacademy.minidooray.gateway.domain.Account;
 import com.nhnacademy.minidooray.gateway.domain.RegisterRequest;
 import com.nhnacademy.minidooray.gateway.domain.UserModifyRequest;
-import com.nhnacademy.minidooray.gateway.properties.AccountProperties;
-import com.nhnacademy.minidooray.gateway.repository.AlreadyExistException;
+import com.nhnacademy.minidooray.gateway.properties.GatewayProperties;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.util.List;
@@ -24,18 +21,18 @@ import java.util.Objects;
 public class AccountAdopter {
 
     private final RestTemplate restTemplate;
-    private final AccountProperties accountProperties;
+    private final GatewayProperties gatewayProperties;
     private final PasswordEncoder passwordEncoder;
 
-    public AccountAdopter(RestTemplate restTemplate, AccountProperties accountProperties, PasswordEncoder passwordEncoder) {
+    public AccountAdopter(RestTemplate restTemplate, GatewayProperties gatewayProperties, PasswordEncoder passwordEncoder) {
         this.restTemplate = restTemplate;
-        this.accountProperties = accountProperties;
+        this.gatewayProperties = gatewayProperties;
         this.passwordEncoder = passwordEncoder;
     }
 
     public Account getAccount(String id) {
         HttpEntity<String> requestEntity = new HttpEntity<>(getHttpHeader());
-        URI uri = getUri(id, "/accounts/{id}");
+        URI uri = getUri(id, "/accountapi/accounts/{id}");
 
 
         ResponseEntity<Account> exchange = restTemplate.exchange(uri,
@@ -48,7 +45,7 @@ public class AccountAdopter {
 
     public Account createAccount(RegisterRequest registerRequest) {
         HttpEntity<RegisterRequest> requestEntity = new HttpEntity<>(registerRequest, getHttpHeader());
-        URI uri = getUri(null, "/accounts");
+        URI uri = getUri(null, "/accountapi/accounts");
 
         ResponseEntity<Account> exchange = restTemplate.exchange(uri,
                 HttpMethod.POST,
@@ -61,12 +58,12 @@ public class AccountAdopter {
     public Account modifyForUser(String id, UserModifyRequest request) {
         String newPwd = passwordEncoder.encode(request.getPassword());
         request.setPassword(newPwd);
-        URI uri = getUri(id, "/accounts/{id}");
+        URI uri = getUri(id, "/accountapi/accounts/{id}");
         return restTemplate.patchForObject(uri, request, Account.class);
     }
 
     public void withdrawForUser(HttpServletRequest request, String userId){
-        URI uri = getUri(userId, "/accounts/withdraw/{id}");
+        URI uri = getUri(userId, "/accountapi/accounts/withdraw/{id}");
         restTemplate.getForEntity(uri,Account.class);
     }
 
@@ -84,7 +81,7 @@ public class AccountAdopter {
 
     public URI getUri(String param, String path) {
         UriComponentsBuilder builder = UriComponentsBuilder.fromPath(path)
-                .scheme("http").host(accountProperties.getHost()).port(accountProperties.getPort());
+                .scheme("http").host(gatewayProperties.getHost()).port(gatewayProperties.getPort());
 
         if (Objects.nonNull(param)) {
             return builder.build(param);

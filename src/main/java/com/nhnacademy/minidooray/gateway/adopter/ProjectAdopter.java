@@ -1,7 +1,8 @@
 package com.nhnacademy.minidooray.gateway.adopter;
 
 import com.nhnacademy.minidooray.gateway.domain.Project;
-import com.nhnacademy.minidooray.gateway.properties.TaskProperties;
+import com.nhnacademy.minidooray.gateway.domain.TaskTitle;
+import com.nhnacademy.minidooray.gateway.properties.GatewayProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -17,15 +18,24 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class ProjectAdopter {
     private final RestTemplate restTemplate;
-    private final TaskProperties taskProperties;
+    private final GatewayProperties gatewayProperties;
+    private static final  HttpEntity<String> REQUEST_ENTITY = new HttpEntity<>(getHttpHeader());
+
     public List<Project> getUserProjects(String accountId){
         URI uri = getUri(accountId,"/projects/accounts/{accountId}");
-        HttpEntity<String> requestEntity = new HttpEntity<>(getHttpHeader());
-        ResponseEntity<List<Project>> response = restTemplate.exchange(uri, HttpMethod.GET, requestEntity, new ParameterizedTypeReference<List<Project>>() {});
+        ResponseEntity<List<Project>> response = restTemplate.exchange(uri, HttpMethod.GET,
+                REQUEST_ENTITY, new ParameterizedTypeReference<>() {});
         return response.getBody();
     }
+    public List<TaskTitle> getUserAllTasks(String accountId){
+        URI uri = getUri(accountId,"/projects/tasks/{accountId}");
+        ResponseEntity<List<TaskTitle>> response = restTemplate.exchange(uri, HttpMethod.GET,
+                REQUEST_ENTITY, new ParameterizedTypeReference<>() {});
+        return response.getBody();
 
-    public HttpHeaders getHttpHeader() {
+    }
+
+    static public HttpHeaders getHttpHeader() {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
@@ -34,7 +44,7 @@ public class ProjectAdopter {
 
     public URI getUri(String param, String path) {
         UriComponentsBuilder builder = UriComponentsBuilder.fromPath(path)
-                .scheme("http").host(taskProperties.getHost()).port(taskProperties.getPort());
+                .scheme("http").host(gatewayProperties.getHost()).port(gatewayProperties.getPort());
 
         if (Objects.nonNull(param)) {
             return builder.build(param);

@@ -47,9 +47,9 @@ public class SecurityConfig {
                                 .successHandler(loginSuccessHandler(null, null)))
 
                         .logout(h -> h
-                                .deleteCookies("SESSION")
+                                .deleteCookies("X-SESSION")
                                 .invalidateHttpSession(true)
-                                .logoutSuccessUrl("/"))
+                                .logoutSuccessUrl("/login"))
 
                         .csrf()
                             .disable()

@@ -61,7 +61,7 @@ public class AccountServiceImpl implements AccountService {
         Cookie[] cookies = request.getCookies();
         if(cookies != null) {
             for (Cookie cookie : cookies){
-                if(cookie.getName().equals("SESSION")) {
+                if(cookie.getName().equals("X-SESSION")) {
                     sessionId = cookie.getValue();
                     break;
                 }

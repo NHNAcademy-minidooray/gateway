@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Simple Sidebar - Start Bootstrap Template</title>
+    <title>MiniDooray</title>
     <!-- Favicon-->
     <!-- Core theme CSS (includes Bootstrap)-->
     <link rel="stylesheet" th:href="@{/styles.css}">
@@ -14,14 +14,7 @@
 <body>
 <div class="d-flex" id="wrapper">
     <!-- Sidebar-->
-    <div class="border-end bg-white" id="sidebar-wrapper">
-        <div class="sidebar-heading border-bottom bg-light">Mini Dooray!</div>
-        <div class="list-group list-group-flush">
-            <p class="project-bar p-4 border-bottom" style="font-size: 15pt ; padding-left: 10px">💡<strong>프로젝트</strong></p>
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" th:each="item : ${projects}" th:text="${item.getProjectTitle()}" th:href="@{/projects/{projectId}/task(projectId=${item.getProjectSeq()})}"></a>
-
-        </div>
-    </div>
+    <th:block th:include="fragments/heading" />
     <!-- Page content wrapper-->
     <div id="page-content-wrapper">
         <!-- Top navigation-->
@@ -36,8 +29,10 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ><span sec:authentication="name" ></span></a>
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#!">Action</a>
-                                <a class="dropdown-item" href="#!">Another action</a>
+<!--                                <form method="post" action="/logout">-->
+<!--                                    <a class="dropdown-item" type="submit">로그아웃</a>-->
+<!--                                </form>-->
+                                <a class="dropdown-item" href="/logout">로그아웃</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="/profile/view">내 프로필</a>
                             </div>
@@ -50,8 +45,8 @@
         <div class="container-fluid">
             <h3 class="p-3">📄 전체 업무</h3>
             <table>
-                <tr th:each="">
-                    <td><a></a></td>
+                <tr th:each="task : ${tasks}">
+                    <td><a href="/" th:text="${task.getTaskTitle()}"></a></td>
                 </tr>
             </table>
         </div>

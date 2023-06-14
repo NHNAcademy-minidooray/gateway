@@ -2,6 +2,7 @@ package com.nhnacademy.minidooray.gateway.service;
 
 import com.nhnacademy.minidooray.gateway.adopter.ProjectAdopter;
 import com.nhnacademy.minidooray.gateway.domain.Project;
+import com.nhnacademy.minidooray.gateway.domain.TaskTitle;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,5 +18,11 @@ public class ProjectServiceImpl implements ProjectService {
     public List<Project> getUserProjects(HttpServletRequest request) {
         String accountId = accountService.getUserCookie(request,"username");
         return projectAdopter.getUserProjects(accountId);
+    }
+
+    @Override
+    public List<TaskTitle> getUserAllTasks(HttpServletRequest request) {
+        String accountId = accountService.getUserCookie(request,"username");
+        return projectAdopter.getUserAllTasks(accountId);
     }
 }

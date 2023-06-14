@@ -27,9 +27,10 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
         throws IOException, ServletException {
 
         String sessionId = UUID.randomUUID().toString();
+//                request.getSession().toString();
 
         // TODO #4-1: `SESSION` 이라는 이름의 쿠키에 sessionId를 저장하세요.
-        Cookie cookie = new Cookie("SESSION",sessionId);
+        Cookie cookie = new Cookie("X-SESSION",sessionId);
         response.addCookie(cookie);
         // TODO #4-2: redis에 session 정보를 저장하세요.
         String username = authentication.getName();

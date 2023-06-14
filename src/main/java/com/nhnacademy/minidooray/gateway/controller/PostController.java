@@ -1,6 +1,7 @@
 package com.nhnacademy.minidooray.gateway.controller;
 
 import com.nhnacademy.minidooray.gateway.domain.Project;
+import com.nhnacademy.minidooray.gateway.domain.TaskTitle;
 import com.nhnacademy.minidooray.gateway.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -20,7 +21,9 @@ public class PostController {
     @GetMapping
     public String getPostPage(HttpServletRequest request, Model model){
         List<Project> projects =  projectService.getUserProjects(request);
+        List<TaskTitle> tasks = projectService.getUserAllTasks(request);
         model.addAttribute("projects",projects);
+        model.addAttribute("tasks",tasks);
         return "post";
     }
 
