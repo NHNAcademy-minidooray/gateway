@@ -4,6 +4,7 @@ import com.nhnacademy.minidooray.gateway.domain.Account;
 import com.nhnacademy.minidooray.gateway.domain.RegisterRequest;
 import com.nhnacademy.minidooray.gateway.domain.UserModifyRequest;
 import com.nhnacademy.minidooray.gateway.properties.GatewayProperties;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,6 +19,7 @@ import java.util.Objects;
 
 
 @Component
+@Slf4j
 public class AccountAdopter {
 
     private final RestTemplate restTemplate;
@@ -33,7 +35,7 @@ public class AccountAdopter {
     public Account getAccount(String id) {
         HttpEntity<String> requestEntity = new HttpEntity<>(getHttpHeader());
         URI uri = getUri(id, "/accountapi/accounts/{id}");
-
+        log.info("&&&&&&&&&&&&&& uri : {}" , uri);
 
         ResponseEntity<Account> exchange = restTemplate.exchange(uri,
                 HttpMethod.GET,

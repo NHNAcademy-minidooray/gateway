@@ -4,6 +4,7 @@ import com.nhnacademy.minidooray.gateway.domain.Project;
 import com.nhnacademy.minidooray.gateway.domain.TaskTitle;
 import com.nhnacademy.minidooray.gateway.properties.GatewayProperties;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.Objects;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class ProjectAdopter {
@@ -23,6 +25,7 @@ public class ProjectAdopter {
 
     public List<Project> getUserProjects(String accountId){
         URI uri = getUri(accountId,"/projects/accounts/{accountId}");
+        log.info("test-uri:{}",uri);
         ResponseEntity<List<Project>> response = restTemplate.exchange(uri, HttpMethod.GET,
                 REQUEST_ENTITY, new ParameterizedTypeReference<>() {});
         return response.getBody();

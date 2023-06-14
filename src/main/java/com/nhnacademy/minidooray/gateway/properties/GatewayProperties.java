@@ -9,5 +9,5 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Setter
 public class GatewayProperties {
     private String host;
-    private String port;
+    private Integer port;
 }

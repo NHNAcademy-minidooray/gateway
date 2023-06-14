@@ -14,33 +14,10 @@
 <body>
 <div class="d-flex" id="wrapper">
     <!-- Sidebar-->
-    <th:block th:include="fragments/heading" />
+    <th:block th:include="/fragments/side-navigation"/>
     <!-- Page content wrapper-->
     <div id="page-content-wrapper">
-        <!-- Top navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-            <div class="container-fluid">
-                <button class="btn btn-primary" id="sidebarToggle" >새 프로젝트</button>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
-                        <li class="nav-item active"><a class="nav-link" href="#!">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">Link</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ><span sec:authentication="name" ></span></a>
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-<!--                                <form method="post" action="/logout">-->
-<!--                                    <a class="dropdown-item" type="submit">로그아웃</a>-->
-<!--                                </form>-->
-                                <a class="dropdown-item" href="/logout">로그아웃</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/profile/view">내 프로필</a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <th:block th:include="/fragments/heading"/>
         <!-- Page content-->
         <div class="container-fluid">
             <h3 class="p-3">📄 전체 업무</h3>
