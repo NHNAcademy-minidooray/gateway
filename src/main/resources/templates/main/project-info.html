@@ -56,6 +56,16 @@
             </td>
           </tr>
           <tr>
+            <td><h4>마일스톤</h4></td>
+          </tr>
+          <tr th:each="milestone : ${milestones}">
+            <td>
+              <span th:text="${milestone.getName()}"></span>
+            </td>
+          </tr>
+
+
+          <tr>
             <td><h4>프로젝트 맴버</h4></td>
           </tr>
           <tr th:each="member : ${members}" >

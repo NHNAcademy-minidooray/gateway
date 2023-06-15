@@ -97,21 +97,17 @@ public class SecurityConfig {
 
     @Bean
     public ClientRegistrationRepository clientRegistrationRepository() {
-        // TODO : #2 실습 - ClientRegistrationRepository 구현체를 생성하세요.
-        //        아래 github() 메서드를 활용하세요.
         return new InMemoryClientRegistrationRepository(github());
     }
 
     @Bean
     public OAuth2AuthorizedClientService authorizedClientService() {
-        // TODO : #3 실습 - OAuth2AuthorizedClientService 구현체를 생성하세요.
         return new InMemoryOAuth2AuthorizedClientService(clientRegistrationRepository());
     }
 
     private ClientRegistration github() {
         return CommonOAuth2Provider.GITHUB.getBuilder("github")
                 .userNameAttributeName("name")
-                // TODO #1: github에서 생성한 어플리케이션 정보를 참조해서 client_id와 client_secret을 등록하세요.
                 .clientId("2c09b0f55dce7538cc6f")
                 .clientSecret("2cbd7dbdf89221227291749b3656b0ad57051948")
                 .build();
