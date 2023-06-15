@@ -25,7 +25,6 @@ public class ProjectAdopter {
 
     public List<Project> getUserProjects(String accountId){
         URI uri = getUri(accountId,"/projects/accounts/{accountId}");
-        log.info("test-uri:{}",uri);
         ResponseEntity<List<Project>> response = restTemplate.exchange(uri, HttpMethod.GET,
                 REQUEST_ENTITY, new ParameterizedTypeReference<>() {});
         return response.getBody();

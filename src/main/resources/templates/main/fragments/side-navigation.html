@@ -3,7 +3,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   <!-- Sidebar-->
   <div class="border-end bg-white" id="sidebar-wrapper">
-    <div class="sidebar-heading border-bottom bg-light" style="color: #0a53be">Mini Dooray!</div>
+    <div class="sidebar-heading border-bottom bg-light" style="color: #0d6efd">Mini Dooray!</div>
     <div class="list-group list-group-flush">
       <p class="project-bar p-4 border-bottom" style="font-size: 15pt ; padding-left: 10px;">💡<strong>프로젝트</strong></p>
       <a class="list-group-item list-group-item-action list-group-item-light p-3" th:each="item : ${projects}" th:text="${item.getProjectTitle()}" th:href="@{/projects/{projectId}(projectId=${item.getProjectSeq()})}"></a>
