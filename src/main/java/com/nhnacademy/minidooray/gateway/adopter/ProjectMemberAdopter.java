@@ -1,7 +1,6 @@
 package com.nhnacademy.minidooray.gateway.adopter;
 
-import com.nhnacademy.minidooray.gateway.domain.Tag;
-import com.nhnacademy.minidooray.gateway.domain.TaskTitle;
+import com.nhnacademy.minidooray.gateway.domain.ProjectMember;
 import com.nhnacademy.minidooray.gateway.properties.GatewayProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
@@ -16,15 +15,19 @@ import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
-public class TagAdopter {
+public class ProjectMemberAdopter {
     private final RestTemplate restTemplate;
     private final GatewayProperties gatewayProperties;
     private static final HttpEntity<String> REQUEST_ENTITY = new HttpEntity<>(getHttpHeader());
 
-
-    public List<Tag> getTags(Integer projectId) {
-        URI uri =  getUri(String.valueOf(projectId),"projects/{projectId}/tags");
-        ResponseEntity<List<Tag>> response = restTemplate.exchange(uri, HttpMethod.GET,
+    /**
+     * 프로젝트별 멤버 조회
+     * @param projectId
+     * @return
+     */
+    public List<ProjectMember> getProjectMembers(Integer projectId) {
+       URI uri = getUri(String.valueOf(projectId),"/projects/{projectId}/accounts");
+        ResponseEntity<List<ProjectMember>> response = restTemplate.exchange(uri, HttpMethod.GET,
                 REQUEST_ENTITY, new ParameterizedTypeReference<>() {});
         return response.getBody();
     }

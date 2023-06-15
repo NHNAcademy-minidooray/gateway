@@ -1,7 +1,6 @@
 package com.nhnacademy.minidooray.gateway.adopter;
 
 import com.nhnacademy.minidooray.gateway.domain.Project;
-import com.nhnacademy.minidooray.gateway.domain.TaskTitle;
 import com.nhnacademy.minidooray.gateway.properties.GatewayProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,12 +25,6 @@ public class ProjectAdopter {
     public List<Project> getUserProjects(String accountId){
         URI uri = getUri(accountId,"/projects/accounts/{accountId}");
         ResponseEntity<List<Project>> response = restTemplate.exchange(uri, HttpMethod.GET,
-                REQUEST_ENTITY, new ParameterizedTypeReference<>() {});
-        return response.getBody();
-    }
-    public List<TaskTitle> getUserAllTasks(String accountId){
-        URI uri = getUri(accountId,"/projects/tasks/{accountId}");
-        ResponseEntity<List<TaskTitle>> response = restTemplate.exchange(uri, HttpMethod.GET,
                 REQUEST_ENTITY, new ParameterizedTypeReference<>() {});
         return response.getBody();
     }

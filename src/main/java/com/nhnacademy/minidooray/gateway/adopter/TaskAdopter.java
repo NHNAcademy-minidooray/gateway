@@ -22,8 +22,19 @@ public class TaskAdopter {
 
     private static final HttpEntity<String> REQUEST_ENTITY = new HttpEntity<>(getHttpHeader());
 
+    /**
+     * 해당 유저의 모든 업무 조회
+     * @param accountId
+     * @return
+     */
+    public List<TaskTitle> getUserAllTasks(String accountId){
+        URI uri = getUri(accountId,"/projects/tasks/{accountId}");
+        ResponseEntity<List<TaskTitle>> response = restTemplate.exchange(uri, HttpMethod.GET,
+                REQUEST_ENTITY, new ParameterizedTypeReference<>() {});
+        return response.getBody();
+    }
     public List<TaskTitle> getProjectTasks(Integer projectId){
-        URI uri = getUri(projectId,"/projects/{projectId}/tasks");
+        URI uri = getUri(String.valueOf(projectId),"/projects/{projectId}/tasks");
         ResponseEntity<List<TaskTitle>> response = restTemplate.exchange(uri,HttpMethod.GET,
                 REQUEST_ENTITY, new ParameterizedTypeReference<>() {});
         return response.getBody();
@@ -35,7 +46,7 @@ public class TaskAdopter {
         return httpHeaders;
     }
 
-    public URI getUri(Integer param, String path) {
+    public URI getUri(String param, String path) {
         UriComponentsBuilder builder = UriComponentsBuilder.fromPath(path)
                 .scheme("http").host(gatewayProperties.getHost()).port(gatewayProperties.getPort());
 

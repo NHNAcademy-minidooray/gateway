@@ -21,9 +21,11 @@
     <!-- Page content-->
     <div class="container-fluid" th:object="${project}">
       <div>
-       <h3 class="p-3" th:text="'📄 ' + *{projectTitle}" style="display: inline"></h3><span th:text="*{statusCodeName}" style="background-color: rgba(194,227,248,0.98);padding-left: 8px;
-    padding-right: 8px;
-    border-radius: 15px;"></span>
+        <h3 class="p-3" th:text="'📄 ' + *{projectTitle}" style="display: inline"></h3>
+        <span th:text="*{statusCodeName}" style="background-color: rgba(194,227,248,0.98);padding-left: 8px;
+          padding-right: 8px;
+          border-radius: 15px;">
+        </span>
       </div>
       <div class="task-list border-light" style="float: left">
         <table>
@@ -38,26 +40,28 @@
       <div class="project-info" style="float: right; width: 30%">
         <table>
           <tr>
-            <td>소개 : <span th:text="*{projectContent}"></span></td>
+            <h4>소개</h4>
+            <td><span th:text="*{projectContent}"></span></td>
           </tr>
           <tr>
             <td>
-              <h3>태그</h3>
+              <h4>태그</h4>
               <span th:each= "tag : ${tags}" th:text="${tag.getTagName()}"
                     style="background-color: #f8d8dd;
                             margin-right: 10px;
                             padding-left: 8px;
                             padding-right: 8px;
-                            border-radius: 15px;" ></span>
-
+                            border-radius: 15px;" >
+              </span>
             </td>
           </tr>
           <tr>
-            <td>프로젝트 맴버</td>
+            <td><h4>프로젝트 맴버</h4></td>
           </tr>
-          <tr>
-            <td><span th:text="*{projectMemberId}" style="margin-right: 5px
-"></span><span th:text="*{projectMemberRole}" style="font-size: 5px"></span></td>
+          <tr th:each="member : ${members}" >
+            <td><span th:text="${member.getProjectMemberId()}" style="margin-right: 5px"></span>
+              <span th:text="${member.getProjectMemberRole()}" style="font-size: 5px"></span>
+            </td>
           </tr>
         </table>
       </div>

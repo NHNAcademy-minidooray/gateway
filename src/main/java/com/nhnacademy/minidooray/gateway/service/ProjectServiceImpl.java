@@ -20,13 +20,6 @@ public class ProjectServiceImpl implements ProjectService {
         String accountId = accountService.getUserCookie(request,"username");
         return projectAdopter.getUserProjects(accountId);
     }
-
-    @Override
-    public List<TaskTitle> getUserAllTasks(HttpServletRequest request) {
-        String accountId = accountService.getUserCookie(request,"username");
-        return projectAdopter.getUserAllTasks(accountId);
-    }
-
     @Override
     public Project getProject(Integer projectId) {
         return projectAdopter.getProject(projectId);
