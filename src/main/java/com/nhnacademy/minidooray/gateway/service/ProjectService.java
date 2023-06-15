@@ -10,5 +10,6 @@ public interface ProjectService {
 
     List<Project> getUserProjects(HttpServletRequest request);
     List<TaskTitle> getUserAllTasks(HttpServletRequest request);
+    Project getProject(Integer projectId);
 
 }

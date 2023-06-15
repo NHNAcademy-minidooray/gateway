@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -24,5 +25,10 @@ public class ProjectServiceImpl implements ProjectService {
     public List<TaskTitle> getUserAllTasks(HttpServletRequest request) {
         String accountId = accountService.getUserCookie(request,"username");
         return projectAdopter.getUserAllTasks(accountId);
+    }
+
+    @Override
+    public Project getProject(Integer projectId) {
+        return projectAdopter.getProject(projectId);
     }
 }

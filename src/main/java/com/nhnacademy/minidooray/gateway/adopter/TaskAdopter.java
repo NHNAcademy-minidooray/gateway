@@ -1,10 +1,9 @@
 package com.nhnacademy.minidooray.gateway.adopter;
 
-import com.nhnacademy.minidooray.gateway.domain.Project;
+import com.nhnacademy.minidooray.gateway.domain.Task;
 import com.nhnacademy.minidooray.gateway.domain.TaskTitle;
 import com.nhnacademy.minidooray.gateway.properties.GatewayProperties;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -15,37 +14,20 @@ import java.net.URI;
 import java.util.List;
 import java.util.Objects;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
-public class ProjectAdopter {
+public class TaskAdopter {
     private final RestTemplate restTemplate;
     private final GatewayProperties gatewayProperties;
-    private static final  HttpEntity<String> REQUEST_ENTITY = new HttpEntity<>(getHttpHeader());
 
-    public List<Project> getUserProjects(String accountId){
-        URI uri = getUri(accountId,"/projects/accounts/{accountId}");
-        log.info("test-uri:{}",uri);
-        ResponseEntity<List<Project>> response = restTemplate.exchange(uri, HttpMethod.GET,
+    private static final HttpEntity<String> REQUEST_ENTITY = new HttpEntity<>(getHttpHeader());
+
+    public List<TaskTitle> getProjectTasks(Integer projectId){
+        URI uri = getUri(projectId,"/projects/{projectId}/tasks");
+        ResponseEntity<List<TaskTitle>> response = restTemplate.exchange(uri,HttpMethod.GET,
                 REQUEST_ENTITY, new ParameterizedTypeReference<>() {});
         return response.getBody();
     }
-    public List<TaskTitle> getUserAllTasks(String accountId){
-        URI uri = getUri(accountId,"/projects/tasks/{accountId}");
-        ResponseEntity<List<TaskTitle>> response = restTemplate.exchange(uri, HttpMethod.GET,
-                REQUEST_ENTITY, new ParameterizedTypeReference<>() {});
-        return response.getBody();
-    }
-
-    /**
-     * 프로젝트 상세 정보 조회
-     * @return
-     */
-    public Project getProject(Integer projectId){
-        URI uri = getUri(String.valueOf(projectId),"/projects/{projectId}");
-       return restTemplate.getForEntity(uri,Project.class).getBody();
-    }
-
     static public HttpHeaders getHttpHeader() {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -53,7 +35,7 @@ public class ProjectAdopter {
         return httpHeaders;
     }
 
-    public URI getUri(String param, String path) {
+    public URI getUri(Integer param, String path) {
         UriComponentsBuilder builder = UriComponentsBuilder.fromPath(path)
                 .scheme("http").host(gatewayProperties.getHost()).port(gatewayProperties.getPort());
 

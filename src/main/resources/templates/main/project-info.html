@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <title>프로젝트상세</title>
+  <!-- Favicon-->
+  <!-- Core theme CSS (includes Bootstrap)-->
+  <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+<div class="d-flex" id="wrapper">
+  <!-- Sidebar-->
+  <th:block th:include="/fragments/side-navigation"/>
+  <!-- Page content wrapper-->
+  <div id="page-content-wrapper">
+    <th:block th:include="/fragments/heading"/>
+    <!-- Page content-->
+    <div class="container-fluid" th:object="${project}">
+      <div>
+       <h3 class="p-3" th:text="'📄 ' + *{projectTitle}" style="display: inline"></h3><span th:text="*{statusCodeName}"></span>
+      </div>
+      <div class="task-list border-light" style="float: left">
+        <table>
+          <tr>
+            <td class="p-3">업무 리스트</td>
+          </tr>
+          <tr th:each="task : ${tasks}">
+            <td><a href="/" th:text="${task.getTaskTitle()}"></a></td>
+          </tr>
+        </table>
+      </div>
+      <div class="project-info" style="float: right; width: 50%">
+        <table>
+          <tr>
+            <td>소개 : <span th:text="*{projectContent}"></span></td>
+          </tr>
+          <tr>
+            <td>프로젝트 맴버</td>
+          </tr>
+          <tr>
+            <td><span th:text="*{projectMemberId}"></span><span th:text="*{projectMemberRole}" style="font-size: 5px"></span></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="js/scripts.js"></script>
+</body>
+</html>

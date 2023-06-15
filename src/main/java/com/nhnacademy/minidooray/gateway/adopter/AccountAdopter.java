@@ -35,7 +35,6 @@ public class AccountAdopter {
     public Account getAccount(String id) {
         HttpEntity<String> requestEntity = new HttpEntity<>(getHttpHeader());
         URI uri = getUri(id, "/accountapi/accounts/{id}");
-        log.info("&&&&&&&&&&&&&& uri : {}" , uri);
 
         ResponseEntity<Account> exchange = restTemplate.exchange(uri,
                 HttpMethod.GET,
