@@ -14,7 +14,7 @@
 <body>
 <div class="d-flex" id="wrapper">
   <!-- Sidebar-->
-  <th:block th:include="/fragments/side-navigation"/>
+  <th:block th:include="/fragments/side_navigation"/>
   <!-- Page content wrapper-->
   <div id="page-content-wrapper">
     <th:block th:include="/fragments/heading"/>
@@ -30,7 +30,7 @@
       <div class="task-list border-light" style="float: left">
         <table>
           <tr>
-            <td><a href="/tasks/create" class="btn-dark">새 업무</a></td>
+            <td><a href="/projects/tasks/create" class="btn-dark">새 업무</a></td>
             <td class="p-3">업무 리스트</td>
           </tr>
           <tr th:each="task : ${tasks}">

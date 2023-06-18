@@ -40,7 +40,7 @@ public class ProjectController {
         model.addAttribute("project",project);
         model.addAttribute("tasks",tasks);
         model.addAttribute("tags",tags);
-        return "project-info";
+        return "project_info";
     }
     @GetMapping("/create")
     public String getNewProjectPage(){

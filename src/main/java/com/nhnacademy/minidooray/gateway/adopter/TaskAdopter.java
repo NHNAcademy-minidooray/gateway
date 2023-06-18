@@ -1,6 +1,7 @@
 package com.nhnacademy.minidooray.gateway.adopter;
 
 import com.nhnacademy.minidooray.gateway.domain.Task;
+import com.nhnacademy.minidooray.gateway.domain.request.TaskRegisterRequest;
 import com.nhnacademy.minidooray.gateway.domain.request.TaskTitle;
 import com.nhnacademy.minidooray.gateway.properties.GatewayProperties;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +46,7 @@ public class TaskAdopter {
      * @return
      */
     public Task getTask(Integer projectSeq, Integer taskSeq){
-        URI uri = getUri(projectSeq,taskSeq,"/projects/{projectId}/tasks/{taskId}");
+        URI uri = getUri(projectSeq, String.valueOf(taskSeq),"/projects/{projectId}/tasks/{taskId}");
         return restTemplate.getForEntity(uri,Task.class).getBody();
     }
 
@@ -53,9 +54,10 @@ public class TaskAdopter {
      * 업무 등록
      * @return
      */
-//    public Task createTask(TaskRegisterRequest registerRequest, Integer projectSeq, String projectMemberId){
-//
-//    }
+    public Task createTask(TaskRegisterRequest registerRequest, Integer projectSeq, String accountId){
+        URI uri = getUri(projectSeq,accountId,"/projects/{projectId}/tasks/accounts/{accountId}");
+        return restTemplate.postForEntity(uri,registerRequest,Task.class).getBody();
+    }
     static public HttpHeaders getHttpHeader() {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -73,7 +75,7 @@ public class TaskAdopter {
             return builder.build(false).encode().toUri();
         }
     }
-    public URI getUri(Integer param1,Integer param2, String path) {
+    public URI getUri(Integer param1,String param2, String path) {
         UriComponentsBuilder builder = UriComponentsBuilder.fromPath(path)
                 .scheme("http").host(gatewayProperties.getHost()).port(gatewayProperties.getPort());
 

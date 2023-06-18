@@ -2,6 +2,7 @@ package com.nhnacademy.minidooray.gateway.service;
 
 import com.nhnacademy.minidooray.gateway.adopter.TaskAdopter;
 import com.nhnacademy.minidooray.gateway.domain.Task;
+import com.nhnacademy.minidooray.gateway.domain.request.TaskRegisterRequest;
 import com.nhnacademy.minidooray.gateway.domain.request.TaskTitle;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,5 +27,8 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Task getTask(Integer projectSeq, Integer taskSeq){
        return taskAdopter.getTask(projectSeq,taskSeq);
+    }
+    public Task createTask(TaskRegisterRequest registerRequest, Integer projectSeq, String accountId){
+        return taskAdopter.createTask(registerRequest,projectSeq,accountId);
     }
 }

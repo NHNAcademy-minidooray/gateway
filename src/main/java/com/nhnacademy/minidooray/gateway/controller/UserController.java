@@ -30,7 +30,7 @@ public class UserController {
         }
         Account account = accountService.createAccount(request);
         model.addAttribute("account",account);
-       return "join-success";
+       return "join_success";
     }
 
     @GetMapping("/profile/view")
