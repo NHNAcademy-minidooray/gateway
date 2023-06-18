@@ -1,7 +1,6 @@
 package com.nhnacademy.minidooray.gateway.adopter;
 
 import com.nhnacademy.minidooray.gateway.domain.Tag;
-import com.nhnacademy.minidooray.gateway.domain.TaskTitle;
 import com.nhnacademy.minidooray.gateway.properties.GatewayProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;

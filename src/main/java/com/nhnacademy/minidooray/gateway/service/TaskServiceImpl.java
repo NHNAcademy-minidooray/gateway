@@ -1,11 +1,11 @@
 package com.nhnacademy.minidooray.gateway.service;
 
 import com.nhnacademy.minidooray.gateway.adopter.TaskAdopter;
-import com.nhnacademy.minidooray.gateway.domain.TaskTitle;
+import com.nhnacademy.minidooray.gateway.domain.Task;
+import com.nhnacademy.minidooray.gateway.domain.request.TaskTitle;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Service
@@ -19,8 +19,12 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskTitle> getUserAllTasks(HttpServletRequest request) {
-        String accountId = accountService.getUserCookie(request,"username");
+    public List<TaskTitle> getUserAllTasks(String sessionId) {
+        String accountId = accountService.getUserCookie(sessionId,"username");
         return taskAdopter.getUserAllTasks(accountId);
+    }
+    @Override
+    public Task getTask(Integer projectSeq, Integer taskSeq){
+       return taskAdopter.getTask(projectSeq,taskSeq);
     }
 }

@@ -14,47 +14,50 @@
 <body>
 <div class="d-flex" id="wrapper">
     <!-- Sidebar-->
-    <div class="border-end bg-white" id="sidebar-wrapper">
-        <div class="sidebar-heading border-bottom bg-light" style="color: #0a53be">Mini Dooray!</div>
-        <div class="list-group list-group-flush">
-            <p class="project-bar p-4 border-bottom" style="font-size: 15pt ; padding-left: 10px;">💡<strong>프로젝트</strong></p>
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" th:each="item : ${projects}" th:text="${item.getProjectTitle()}" th:href="@{/projects/{projectId}/task(projectId=${item.getProjectSeq()})}"></a>
-        </div>
-    </div>
+    <th:block th:include="/fragments/side-navigation"/>
     <!-- Page content wrapper-->
     <div id="page-content-wrapper">
-        <!-- Top navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-            <div class="container-fluid">
-                <button class="btn btn-primary" id="sidebarToggle" >새 프로젝트</button>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
-                        <li class="nav-item active"><a class="nav-link" href="#!">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">Link</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ><span sec:authentication="name" ></span></a>
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <!--                                <form method="post" action="/logout">-->
-                                <!--                                    <a class="dropdown-item" type="submit">로그아웃</a>-->
-                                <!--                                </form>-->
-                                <a class="dropdown-item" href="/logout">로그아웃</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/profile/view">내 프로필</a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <th:block th:include="/fragments/heading"/>
         <!-- Page content-->
-        <div class="container-fluid">
-            <h3 class="p-3">📄 전체 업무</h3>
-            <table>
-                <tr th:each="task : ${tasks}">
-                    <td><a href="/" th:text="${task.getTaskTitle()}"></a></td>
-                </tr>
-            </table>
+        <div class="container-fluid" th:object="${task}">
+            <div>
+                <h3 class="p-3" th:text="'📁 ' + *{taskTitle}" style="display: inline"></h3>
+                <span th:text="${project.projectTitle}" style="color: dimgray"></span>
+                <a class="btn" href="/task/modify">편집</a>
+            </div>
+            <div class="task-list border-light" style="float: left">
+                <table>
+                    <tr>
+                        <td>등록자</td>
+                        <td th:text="*{projectMemberId}"></td>
+                    </tr>
+                    <tr>
+                        <td>등록일</td>
+                        <td th:text="*{taskCreatedAt}"></td>
+                    </tr>
+                    <tr>
+                        <td>담당자</td>
+                        <td th:text="${project.projectMemberId}" style="color: green"></td>
+                    </tr>
+                    <tr>
+                        <td>태그</td>
+                        <td><span th:each="tagName : *{tagNames}" th:text="${tagName}"
+                            style="background-color: #f8d8dd;
+                            margin-right: 10px;
+                            padding-left: 8px;
+                            padding-right: 8px;
+                            border-radius: 15px;"
+                        ></span></td>
+                    </tr>
+                    <tr>
+                        <td>마일스톤</td>
+                        <td th:text="*{milestoneName}"></td>
+                    </tr>
+                    <tr>
+                        <td colspan = "2" th:text="*{taskContent}"></td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
 </div>

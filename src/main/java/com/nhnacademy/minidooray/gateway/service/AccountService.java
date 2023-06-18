@@ -1,17 +1,15 @@
 package com.nhnacademy.minidooray.gateway.service;
 
 import com.nhnacademy.minidooray.gateway.domain.Account;
-import com.nhnacademy.minidooray.gateway.domain.RegisterRequest;
-import com.nhnacademy.minidooray.gateway.domain.UserModifyRequest;
-
-import javax.servlet.http.HttpServletRequest;
+import com.nhnacademy.minidooray.gateway.domain.request.RegisterRequest;
+import com.nhnacademy.minidooray.gateway.domain.request.UserModifyRequest;
 
 public interface AccountService {
 
     Account createAccount(RegisterRequest request);
-    Account getAccount(HttpServletRequest request);
+    Account getAccount(String sessionId);
     String getStatusName(Integer status);
-    Account modifyForUser(HttpServletRequest httpServletRequest, UserModifyRequest request);
-    void withdrawForUser(HttpServletRequest request);
-    String getUserCookie(HttpServletRequest request, String value);
+    Account modifyForUser(String sessionId, UserModifyRequest request);
+    void withdrawForUser(String sessionId);
+    String getUserCookie(String sessionId, String value);
 }

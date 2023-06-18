@@ -1,7 +1,7 @@
 package com.nhnacademy.minidooray.gateway.adopter;
 
 import com.nhnacademy.minidooray.gateway.domain.Task;
-import com.nhnacademy.minidooray.gateway.domain.TaskTitle;
+import com.nhnacademy.minidooray.gateway.domain.request.TaskTitle;
 import com.nhnacademy.minidooray.gateway.properties.GatewayProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
@@ -39,6 +39,23 @@ public class TaskAdopter {
                 REQUEST_ENTITY, new ParameterizedTypeReference<>() {});
         return response.getBody();
     }
+
+    /**
+     * 해당 업무 조회 하기
+     * @return
+     */
+    public Task getTask(Integer projectSeq, Integer taskSeq){
+        URI uri = getUri(projectSeq,taskSeq,"/projects/{projectId}/tasks/{taskId}");
+        return restTemplate.getForEntity(uri,Task.class).getBody();
+    }
+
+    /**
+     * 업무 등록
+     * @return
+     */
+//    public Task createTask(TaskRegisterRequest registerRequest, Integer projectSeq, String projectMemberId){
+//
+//    }
     static public HttpHeaders getHttpHeader() {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -52,6 +69,16 @@ public class TaskAdopter {
 
         if (Objects.nonNull(param)) {
             return builder.build(param);
+        } else {
+            return builder.build(false).encode().toUri();
+        }
+    }
+    public URI getUri(Integer param1,Integer param2, String path) {
+        UriComponentsBuilder builder = UriComponentsBuilder.fromPath(path)
+                .scheme("http").host(gatewayProperties.getHost()).port(gatewayProperties.getPort());
+
+        if (Objects.nonNull(param1) && Objects.nonNull(param2)) {
+            return builder.build().expand(param1,param2).toUri();
         } else {
             return builder.build(false).encode().toUri();
         }

@@ -23,7 +23,7 @@
             <h3 class="p-3">📄 전체 업무</h3>
             <table>
                 <tr th:each="task : ${tasks}">
-                    <td><a href="/" th:text="${task.getTaskTitle()}"></a></td>
+                    <td><a th:href="@{/projects/{projectId}/tasks/{taskId}(projectId=${task.projectSeq},taskId=${task.taskSeq})}" th:text="${task.getTaskTitle()}"></a></td>
                 </tr>
             </table>
         </div>

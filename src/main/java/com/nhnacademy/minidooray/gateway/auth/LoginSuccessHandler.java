@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
 import javax.servlet.ServletException;
@@ -33,8 +34,9 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
         Cookie cookie = new Cookie("X-SESSION",sessionId);
         response.addCookie(cookie);
         // TODO #4-2: redis에 session 정보를 저장하세요.
-        String username = authentication.getName();
-        String authority = new ArrayList<>(authentication.getAuthorities()).get(0).getAuthority();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String username = userDetails.getUsername();
+        String authority = new ArrayList<>(userDetails.getAuthorities()).get(0).getAuthority();
         Account account = accountAdopter.getAccount(username);
 
         redisTemplate.opsForHash().put(sessionId, "username", username);

@@ -1,6 +1,7 @@
 package com.nhnacademy.minidooray.gateway.adopter;
 
 import com.nhnacademy.minidooray.gateway.domain.Project;
+import com.nhnacademy.minidooray.gateway.domain.request.ProjectRegisterRequest;
 import com.nhnacademy.minidooray.gateway.properties.GatewayProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +37,15 @@ public class ProjectAdopter {
     public Project getProject(Integer projectId){
         URI uri = getUri(String.valueOf(projectId),"/projects/{projectId}");
        return restTemplate.getForEntity(uri,Project.class).getBody();
+    }
+
+    /**
+     * 프로젝트 생성
+     * @return
+     */
+    public Project createProject(ProjectRegisterRequest registerRequest, String accountId){
+        URI uri = getUri(accountId,"/projects/{accountId}");
+        return restTemplate.postForEntity(uri,registerRequest,Project.class).getBody();
     }
 
     static public HttpHeaders getHttpHeader() {

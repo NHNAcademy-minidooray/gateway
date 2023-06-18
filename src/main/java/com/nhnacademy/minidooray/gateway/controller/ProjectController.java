@@ -1,16 +1,17 @@
 package com.nhnacademy.minidooray.gateway.controller;
 
 import com.nhnacademy.minidooray.gateway.domain.*;
+import com.nhnacademy.minidooray.gateway.domain.request.ProjectRegisterRequest;
+import com.nhnacademy.minidooray.gateway.domain.request.TaskTitle;
+import com.nhnacademy.minidooray.gateway.exception.ValidationFailedException;
 import com.nhnacademy.minidooray.gateway.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -28,16 +29,14 @@ public class ProjectController {
      * 프롤젝트의 업무 리스트 출력
      */
     @GetMapping("/{projectId}")
-    public String getProjectTasks(@PathVariable Integer projectId, HttpServletRequest request, Model model){
+    public String getProjectTasks(@PathVariable Integer projectId, Model model){
         List<TaskTitle> tasks = taskService.getProjectTasks(projectId);
         Project project = projectService.getProject(projectId);
-        List<Project> projects =  projectService.getUserProjects(request);
         List<Tag> tags = tagService.getTags(projectId);
         List<ProjectMember> projectMembers = projectMemberService.getProjectMembers(projectId);
         List<Milestone> milestones = milestoneService.getMilestones(projectId);
         model.addAttribute("milestones",milestones);
         model.addAttribute("members",projectMembers);
-        model.addAttribute("projects",projects);
         model.addAttribute("project",project);
         model.addAttribute("tasks",tasks);
         model.addAttribute("tags",tags);
@@ -49,9 +48,15 @@ public class ProjectController {
     }
 
     @PostMapping
-    public String CreateProjectForm(){
-
-        return "create_project";
+    public String CreateProjectForm(@Valid @ModelAttribute ProjectRegisterRequest request, BindingResult bindingResult,
+                                    @CookieValue(value = "X-SESSION", required = false) String sessionId){
+        if (bindingResult.hasErrors()) {
+            throw new ValidationFailedException(bindingResult);
+        }
+        projectService.createProject(request,sessionId);
+        return "/post";
     }
+
+
 
 }

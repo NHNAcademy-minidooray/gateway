@@ -1,11 +1,12 @@
 package com.nhnacademy.minidooray.gateway.service;
 
-import com.nhnacademy.minidooray.gateway.domain.TaskTitle;
+import com.nhnacademy.minidooray.gateway.domain.Task;
+import com.nhnacademy.minidooray.gateway.domain.request.TaskTitle;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface TaskService {
     List<TaskTitle> getProjectTasks(Integer projectId);
-    List<TaskTitle> getUserAllTasks(HttpServletRequest request);
+    List<TaskTitle> getUserAllTasks(String sessionId);
+    Task getTask(Integer projectSeq, Integer taskSeq);
 }

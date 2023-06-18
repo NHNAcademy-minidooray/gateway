@@ -1,8 +1,8 @@
 package com.nhnacademy.minidooray.gateway.adopter;
 
 import com.nhnacademy.minidooray.gateway.domain.Account;
-import com.nhnacademy.minidooray.gateway.domain.RegisterRequest;
-import com.nhnacademy.minidooray.gateway.domain.UserModifyRequest;
+import com.nhnacademy.minidooray.gateway.domain.request.RegisterRequest;
+import com.nhnacademy.minidooray.gateway.domain.request.UserModifyRequest;
 import com.nhnacademy.minidooray.gateway.properties.GatewayProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.util.List;
 import java.util.Objects;
@@ -63,7 +62,7 @@ public class AccountAdopter {
         return restTemplate.patchForObject(uri, request, Account.class);
     }
 
-    public void withdrawForUser(HttpServletRequest request, String userId){
+    public void withdrawForUser(String userId){
         URI uri = getUri(userId, "/accountapi/accounts/withdraw/{id}");
         restTemplate.getForEntity(uri,Account.class);
     }

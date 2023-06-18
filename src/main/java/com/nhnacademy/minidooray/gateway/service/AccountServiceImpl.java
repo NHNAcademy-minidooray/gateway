@@ -2,15 +2,12 @@ package com.nhnacademy.minidooray.gateway.service;
 
 import com.nhnacademy.minidooray.gateway.adopter.AccountAdopter;
 import com.nhnacademy.minidooray.gateway.domain.Account;
-import com.nhnacademy.minidooray.gateway.domain.RegisterRequest;
-import com.nhnacademy.minidooray.gateway.domain.UserModifyRequest;
+import com.nhnacademy.minidooray.gateway.domain.request.RegisterRequest;
+import com.nhnacademy.minidooray.gateway.domain.request.UserModifyRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 
 @Service
 @RequiredArgsConstructor
@@ -27,22 +24,22 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account getAccount(HttpServletRequest request) {
-        String accountId = getUserCookie(request,"username");
+    public Account getAccount(String sessionId) {
+        String accountId = getUserCookie(sessionId,"username");
         return accountAdopter.getAccount(accountId);
     }
 
     @Override
-    public Account modifyForUser(HttpServletRequest httpServletRequest, UserModifyRequest request){
+    public Account modifyForUser(String sessionId, UserModifyRequest request){
         request.setPassword(passwordEncoder.encode(request.getPassword()));
-        String accountId = getUserCookie(httpServletRequest,"username");
+        String accountId = getUserCookie(sessionId,"username");
         return accountAdopter.modifyForUser(accountId,request);
     }
 
     @Override
-    public void withdrawForUser(HttpServletRequest request){
-        String userId = getUserCookie(request,"username");
-        accountAdopter.withdrawForUser(request,userId);
+    public void withdrawForUser(String sessionId){
+        String userId = getUserCookie(sessionId,"username");
+        accountAdopter.withdrawForUser(userId);
     }
 
     @Override
@@ -56,17 +53,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public String getUserCookie(HttpServletRequest request, String value) {
-        String sessionId = null;
-        Cookie[] cookies = request.getCookies();
-        if(cookies != null) {
-            for (Cookie cookie : cookies){
-                if(cookie.getName().equals("X-SESSION")) {
-                    sessionId = cookie.getValue();
-                    break;
-                }
-            }
-        }
+    public String getUserCookie(String sessionId, String value) {
         if(value.equals("username")){
             return  (String) redisTemplate.opsForHash().get(sessionId,"username");
         } else if (value.equals("accountName")) {
