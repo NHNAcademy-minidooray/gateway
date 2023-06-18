@@ -24,6 +24,7 @@ public class AccountAdopter {
     private final RestTemplate restTemplate;
     private final GatewayProperties gatewayProperties;
     private final PasswordEncoder passwordEncoder;
+    private static final  HttpEntity<String> REQUEST_ENTITY = new HttpEntity<>(getHttpHeader());
 
     public AccountAdopter(RestTemplate restTemplate, GatewayProperties gatewayProperties, PasswordEncoder passwordEncoder) {
         this.restTemplate = restTemplate;
@@ -41,6 +42,18 @@ public class AccountAdopter {
                 new ParameterizedTypeReference<>() {
                 });
         return exchange.getBody();
+    }
+
+    /**
+     * 나를 뺸 전체 회원 조회
+     * @param
+     * @return
+     */
+    public List<Account> getAccounts(String accountId){
+        URI uri = getUri(accountId,"/accountapi/accounts/except/{id}");
+        ResponseEntity<List<Account>> response = restTemplate.exchange(uri,HttpMethod.GET,
+                REQUEST_ENTITY, new ParameterizedTypeReference<>() {});
+        return response.getBody();
     }
 
     public Account createAccount(RegisterRequest registerRequest) {
@@ -72,7 +85,7 @@ public class AccountAdopter {
 //        restTemplate.getForEntity()
 //    }
 
-    public HttpHeaders getHttpHeader() {
+    static public HttpHeaders getHttpHeader() {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));

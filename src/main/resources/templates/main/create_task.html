@@ -21,18 +21,35 @@
         <!-- Page content-->
         <div class="container-fluid">
             <h2 class="p-3">📝 업무 추가</h2>
-            <h3 class="p-3">제목</h3>
-            <input type="text"/>
-            <h3 class="p-3">마일스톤</h3>
-            <input type="text"/>
-            <h3 class="p-3">태그</h3>
-            <input type="text"/>
-            <h3 class="p-3">멤버</h3>
-            <input type="text"/>
-            <h3 class="p-3">설명</h3>
-            <textarea style="resize: none; width: 400px; height: 300px"></textarea>
-            <p><input type="button" style="background-color: #0a53be; color: white; width:50px; height: 30px" value="저장"/></p>
-            <input type="button" style="background-color: white; color: black; width:50px; height: 30px" value="취소"/>
+            <form th:action="@{/projects/tasks/create/{projectId}(projectId=${projectId})}" method="post">
+                <input type="text" placeholder="제목을 입력해 주세요" name="title"/>
+                <table>
+                   <tr>
+                       <td>마일스톤</td>
+                       <td>
+                           <ul th:each="milestone : ${milestones}">
+                               <li>
+                                    <input type="radio" name="milestoneName" th:value="${milestone.name}" th:text="${milestone.name}"/>
+                               </li>
+                           </ul>
+                       </td>
+                   </tr>
+                    <tr>
+                        <td>태그</td>
+                        <td>
+                            <ul style="list-style: none" th:each="tag : ${tags}">
+                                <li>
+                                    <input type="checkbox" name="tagNames" th:value="${tag.tagName}" th:text="${tag.tagName}" >
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+                <h3 class="p-3">내용</h3>
+                <textarea style="resize: none; width: 400px; height: 300px" name="content"></textarea>
+                <p><input type="submit" style="background-color: #0a53be; color: white; width:50px; height: 30px" value="저장"/></p>
+                <input type="button" style="background-color: white; color: black; width:50px; height: 30px" value="취소"/>
+            </form>
         </div>
     </div>
 </div>

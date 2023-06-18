@@ -20,11 +20,11 @@
     <th:block th:include="/fragments/heading"/>
     <!-- Page content-->
     <div class="container-fluid">
-      <form action="/project-members" method="post">
+      <form th:action="@{/projects/project-members/{projectId}(projectId=${projectId})}" method="post">
         <h2 class="p-3">🧑🏻‍💼👨🏻‍💼 프로젝트 멤버 추가</h2>
-        <ul style="list-style: none" th:each="member : ${members}">
+        <ul style="list-style: none" th:each="account : ${accounts}">
           <li>
-            <input type="checkbox" name="member" th:value="${member.getMemberId()}" th:text="${member.getMemberName()}" >
+            <input type="checkbox" name="projectMemberIds" th:value="${account.accountId}" th:text="${account.name}" >
           </li>
         </ul>
 

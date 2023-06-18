@@ -1,6 +1,7 @@
 package com.nhnacademy.minidooray.gateway.controller;
 
 import com.nhnacademy.minidooray.gateway.domain.*;
+import com.nhnacademy.minidooray.gateway.domain.request.ProjectMemberRegisterRequest;
 import com.nhnacademy.minidooray.gateway.domain.request.ProjectRegisterRequest;
 import com.nhnacademy.minidooray.gateway.domain.request.TaskTitle;
 import com.nhnacademy.minidooray.gateway.exception.ValidationFailedException;
@@ -23,6 +24,7 @@ public class ProjectController {
     private final TagService tagService;
     private final ProjectMemberService projectMemberService;
     private final MilestoneService milestoneService;
+    private final AccountService accountService;
     /***
      * 프로젝트 클릭 시 나오는 페이지
      * 프로젝트 상세 설명 및
@@ -47,14 +49,39 @@ public class ProjectController {
         return "create_project";
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public String CreateProjectForm(@Valid @ModelAttribute ProjectRegisterRequest request, BindingResult bindingResult,
-                                    @CookieValue(value = "X-SESSION", required = false) String sessionId){
+                                    @CookieValue(value = "X-SESSION", required = false) String sessionId,
+                                    Model model){
         if (bindingResult.hasErrors()) {
             throw new ValidationFailedException(bindingResult);
         }
-        projectService.createProject(request,sessionId);
-        return "/post";
+        Integer projectId = projectService.createProject(request,sessionId);
+        List<Account> accounts = accountService.getAccounts(sessionId);
+        model.addAttribute("projectId",projectId);
+        model.addAttribute("accounts",accounts);
+        return "redirect:/projects/project-members/"+projectId;
+    }
+
+    @GetMapping("/project-members/{projectId}")
+    public String getProjectMemberPage(@PathVariable String projectId,Model model,
+                                       @CookieValue(value = "X-SESSION", required = false) String sessionId){
+        List<Account> accounts = accountService.getAccounts(sessionId);
+        model.addAttribute("accounts",accounts);
+        model.addAttribute("projectId",projectId);
+        return "/create_project_member";
+    }
+
+    @PostMapping("/project-members/{projectId}")
+    public String addProjectMemberForm(@Valid @ModelAttribute ProjectMemberRegisterRequest registerRequest,
+                                       BindingResult bindingResult,
+                                       @PathVariable Integer projectId,
+                                       @CookieValue(value = "X-SESSION", required = false) String sessionId){
+        if (bindingResult.hasErrors()) {
+            throw new ValidationFailedException(bindingResult);
+        }
+        projectMemberService.addProjectMember(registerRequest,projectId,sessionId);
+        return "redirect:/projects/"+projectId;
     }
 
 

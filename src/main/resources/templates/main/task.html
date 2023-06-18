@@ -25,8 +25,13 @@
                 <span th:text="${project.projectTitle}" style="color: dimgray"></span>
                 <a class="btn" href="/task/modify">편집</a>
             </div>
-            <div class="task-list border-light" style="float: left">
-                <table>
+            <div class="task-list border-light">
+                <table style="width: 50%;">
+                    <colgroup>
+                        <col style="width: 15%">
+                        <col style="width: 85%">
+                    </colgroup>
+
                     <tr>
                         <td>등록자</td>
                         <td th:text="*{projectMemberId}"></td>
@@ -53,8 +58,8 @@
                         <td>마일스톤</td>
                         <td th:text="*{milestoneName}"></td>
                     </tr>
-                    <tr>
-                        <td colspan = "2" th:text="*{taskContent}"></td>
+                    <tr class="border-top">
+                        <td class="p-3" colspan = "2" th:text="*{taskContent}"></td>
                     </tr>
                 </table>
             </div>

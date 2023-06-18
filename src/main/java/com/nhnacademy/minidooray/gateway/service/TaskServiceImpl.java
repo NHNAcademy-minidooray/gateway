@@ -28,7 +28,9 @@ public class TaskServiceImpl implements TaskService {
     public Task getTask(Integer projectSeq, Integer taskSeq){
        return taskAdopter.getTask(projectSeq,taskSeq);
     }
-    public Task createTask(TaskRegisterRequest registerRequest, Integer projectSeq, String accountId){
+    @Override
+    public Task createTask(TaskRegisterRequest registerRequest, Integer projectSeq, String sessionId){
+        String accountId = accountService.getUserCookie(sessionId,"username");
         return taskAdopter.createTask(registerRequest,projectSeq,accountId);
     }
 }

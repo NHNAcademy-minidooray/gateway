@@ -30,7 +30,7 @@ class AccountAdopterTest {
 
     @Test
     void getPassword() {
-        String result = passwordEncoder.encode("mej");
+        String result = passwordEncoder.encode("ksy");
         System.out.println(result);
     }
 

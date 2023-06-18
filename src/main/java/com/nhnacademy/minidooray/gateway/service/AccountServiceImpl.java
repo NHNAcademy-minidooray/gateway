@@ -9,6 +9,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
@@ -27,6 +29,11 @@ public class AccountServiceImpl implements AccountService {
     public Account getAccount(String sessionId) {
         String accountId = getUserCookie(sessionId,"username");
         return accountAdopter.getAccount(accountId);
+    }
+
+    public List<Account> getAccounts(String sessionId) {
+        String accountId = getUserCookie(sessionId,"username");
+        return accountAdopter.getAccounts(accountId);
     }
 
     @Override
