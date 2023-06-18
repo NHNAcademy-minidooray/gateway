@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <title>프로젝트 추가</title>
+  <!-- Favicon-->
+  <!-- Core theme CSS (includes Bootstrap)-->
+  <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+<div class="d-flex" id="wrapper">
+  <!-- Sidebar-->
+  <th:block th:include="/fragments/side_navigation"/>
+  <!-- Page content wrapper-->
+  <div id="page-content-wrapper">
+    <th:block th:include="/fragments/heading"/>
+    <!-- Page content-->
+    <div class="container-fluid">
+      <form action="/project-members" method="post">
+        <h2 class="p-3">🧑🏻‍💼👨🏻‍💼 프로젝트 멤버 추가</h2>
+        <ul style="list-style: none" th:each="member : ${members}">
+          <li>
+            <input type="checkbox" name="member" th:value="${member.getMemberId()}" th:text="${member.getMemberName()}" >
+          </li>
+        </ul>
+
+        <p><input type="submit" style="
+                                        background-color: #0d6efd;
+                                        color: white;
+                                        width:50px;
+                                        height: 30px;
+                                        border: none;
+                                        border-radius: 4px;
+                                       "
+                                value="추가"/></p>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="js/scripts.js"></script>
+</body>
+</html>
