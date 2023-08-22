@@ -37,20 +37,21 @@ public class SecurityConfig {
                                 .antMatchers("/static/css/**").permitAll()
                                 .antMatchers("/static/js/**").permitAll()
                                 .anyRequest().permitAll())
-
+                        .authorizeRequests(a -> a
+                                .antMatchers("/login").anonymous()
+                                .anyRequest().authenticated())
                         .formLogin(h -> h
                                 .usernameParameter("username")
                                 .passwordParameter("password")
                                 .loginPage("/login")
                                 .loginProcessingUrl("/login-process")
                                 .failureHandler(authFailureHandler())
-                                .successHandler(loginSuccessHandler(null, null)))
 
+                                .successHandler(loginSuccessHandler(null, null)))
                         .logout(h -> h
                                 .deleteCookies("X-SESSION")
                                 .invalidateHttpSession(true)
                                 .logoutSuccessUrl("/login"))
-
                         .csrf()
                             .disable()
                         .sessionManagement()

@@ -28,12 +28,10 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
         throws IOException, ServletException {
 
         String sessionId = UUID.randomUUID().toString();
-//                request.getSession().toString();
-
-        // TODO #4-1: `SESSION` 이라는 이름의 쿠키에 sessionId를 저장하세요.
+        // `SESSION`쿠키에 sessionId를 저장
         Cookie cookie = new Cookie("X-SESSION",sessionId);
         response.addCookie(cookie);
-        // TODO #4-2: redis에 session 정보를 저장하세요.
+        // redis에 session 정보를 저장
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String username = userDetails.getUsername();
         String authority = new ArrayList<>(userDetails.getAuthorities()).get(0).getAuthority();
@@ -43,11 +41,6 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
         redisTemplate.opsForHash().put(sessionId, "authority", authority);
         redisTemplate.opsForHash().put(sessionId,"accountName",account.getName());
 
-//        Authentication authentication1 = new UsernamePasswordAuthenticationToken(
-//
-//        )
-
-//        super.onAuthenticationSuccess(request, response, authentication);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         response.sendRedirect("/post");
     }
